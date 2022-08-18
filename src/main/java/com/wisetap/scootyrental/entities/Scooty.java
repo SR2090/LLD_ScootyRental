@@ -6,13 +6,11 @@ public class Scooty implements Vehicle{
     private Outlet outletDetail;
     private VehicleStatus status;
     
-    // any vehicle that is created will have the following details
-    // it will have a name and registration(uniquely identifies)
-    // the outlet detail will associate it with an outlet.
     public Scooty(String name, String registration, Outlet outletDetail){
         this.name = name;
         this.registration = registration;
         this.outletDetail = outletDetail;
+        this.status = VehicleStatus.NOTPICKED;
     }
 
     public void setVehicleStatus(VehicleStatus stateOfVehicle){

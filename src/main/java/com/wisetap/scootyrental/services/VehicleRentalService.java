@@ -1,10 +1,12 @@
 package com.wisetap.scootyrental.services;
 
 import com.wisetap.scootyrental.entities.User;
+import com.wisetap.scootyrental.exceptions.OutletFullException;
+import com.wisetap.scootyrental.exceptions.VehicleDoesNotExistException;
+import com.wisetap.scootyrental.exceptions.VehicleIsNotFreeException;
 
 public interface VehicleRentalService {
-    public void rentASingleVehicleForTrip(User user);
-    public void returnRentedVehicleAfterTrip(User user);
-    public void viewNearByVehicleRentingOutletsForUser(User user);
-    public void returnNearByOutletForParking();
+    public void listNearestOutletsAndTheirAvailableVehicles(User user);
+    public void bookAVehicle(User user, String vehicleRegistrationDetails)  throws VehicleDoesNotExistException;
+    public void endTripWithVehicle(User user, String vehicleRegistrationDetails)  throws VehicleIsNotFreeException, OutletFullException ;
 }

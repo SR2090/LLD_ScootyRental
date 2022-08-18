@@ -28,17 +28,21 @@ public class Outlet {
     }   
 
     // checks to ensure that we have parking space available
-    public void validateIfParkingSpaceAvaiableInTheOutlet() throws OutletFullException {
+    public boolean validateIfParkingSpaceAvaiableInTheOutlet() throws OutletFullException {
         boolean result = vehicleMap.size() <= parkingSlots ? true : false;
         if(result){
-            throw new OutletFullException("This outlet's parking is full. Please park at other nearest outlet.");
+            throw new OutletFullException("This outlet's parking is full. Please park at another outlet.");
         }
+        return result;
     }  
     
     // add vehicle to outlet
     public void addVehicle(Vehicle vehicle) throws VehicleIsNotFreeException, OutletFullException {
         validateIfParkingSpaceAvaiableInTheOutlet();
-        if(VehicleStatus.FREE.equals(vehicle.getVehicleStatus())){
+        if(VehicleStatus.NOTPICKED.equals(vehicle.getVehicleStatus())){
+            vehicleMap.put(vehicle.getVehicleRegistration(), vehicle);
+        }else if(VehicleStatus.RETURNED.equals(vehicle.getVehicleStatus())){
+            vehicle.setVehicleStatus(VehicleStatus.NOTPICKED);
             vehicleMap.put(vehicle.getVehicleRegistration(), vehicle);
         }else{
             throw new VehicleIsNotFreeException("This vehicle is still booked");
@@ -71,6 +75,14 @@ public class Outlet {
 
         return distanceBetweenUserAndOutlet;
     }
+
+    public void getVehicles(){
+        for(Vehicle vehicle : vehicleMap.values()){
+            if(VehicleStatus.NOTPICKED.equals(vehicle.getVehicleStatus())){
+                System.out.println(vehicle.getVehicleName() + " " + vehicle.getVehicleRegistration());
+            }
+        }
+    } 
 
     @Override
     public String toString() {
